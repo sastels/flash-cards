@@ -31,7 +31,7 @@ function Topics({ match }) {
       <h2>Topics</h2>
       <ul>
         <li>
-          <Link to={`${match.url}/rendering`}>Rendering with React</Link>
+          <Link to={`${match.url}/rendering`}>auto-deploy</Link>
         </li>
         <li>
           <Link to={`${match.url}/components`}>Components</Link>
