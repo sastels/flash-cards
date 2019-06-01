@@ -1,0 +1,16 @@
+steps:
+  - name: node:11-alpine
+    id: install
+    entrypoint: yarn
+
+  - name: node:11-alpine
+    id: lint
+    entrypoint: yarn
+    args: ['lint']
+
+  - name: node:11-alpine
+    id: test
+    env:
+      - 'CI=true'
+    entrypoint: yarn
+    args: ['test']

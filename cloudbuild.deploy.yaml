@@ -1,0 +1,27 @@
+steps:
+  - name: gcr.io/cloud-builders/npm
+    id: install
+    args: ['install']
+
+  - name: gcr.io/cloud-builders/npm
+    id: test
+    env:
+      - 'CI=true'
+    args: ['test']
+
+  - name: gcr.io/cloud-builders/npm
+    id: build
+    args: ['run', 'build']
+
+  - name: gcr.io/$PROJECT_ID/firebase
+    id: deploy
+    args:
+      [
+        'deploy',
+        '-P',
+        '$PROJECT_ID',
+        '--only',
+        'hosting',
+        '--token',
+        '$_FIREBASE_DEPLOY_TOKEN',
+      ]
