@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import App from './App';
+import FlashCards from '../FlashCards';
 
 afterEach(cleanup);
 
-describe('<App/>', () => {
+describe('<FlashCards />', () => {
   it('renders without crashing', () => {
-    render(<App />);
+    render(<FlashCards />);
   });
 });
