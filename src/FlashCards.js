@@ -1,16 +1,31 @@
-import React, { Component } from 'react';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+
+import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@cdssnc/repertoire';
+import { Button, Container, Text } from '@cdssnc/repertoire';
 
 // not used yet
+
+const wordStyle = css`
+  margin: 0;
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const leftSide = css`
+  position: absolute;
+  left: 0;
+`;
+const rightSide = css`
+  position: absolute;
+  right: 0;
+`;
+
 export const styles = () => ({
-  word: {
-    margin: '0',
-    position: 'absolute',
-    top: '47%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)'
-  },
+  word: {},
   button: {
     marginLeft: '10%',
     marginRight: '10%',
@@ -18,24 +33,9 @@ export const styles = () => ({
     marginTop: '20px',
     marginBottom: '30px'
   },
-  bottomButton: {
-    marginLeft: '10%',
-    marginRight: '10%',
-    textTransform: 'none',
-    marginTop: '20px',
-    marginBottom: '30px',
-    fontSize: '20px'
-  },
 
   topBar: {
     textAlign: 'center'
-  },
-  bottomBar: {
-    width: '100%',
-    marginLeft: -10,
-    padding: 0,
-    position: 'fixed',
-    bottom: '0px'
   }
 });
 
@@ -51,27 +51,37 @@ export class FlashCards extends Component {
   };
 
   render() {
-    const { words } = this.props;
+    const { words, switchToProgress } = this.props;
     const { count } = this.state;
 
     if (words.length === 0) {
       return null;
     }
-
     const word = words[count];
+
     return (
-      <div id="flash_cards">
-        {word}
-        <div>
-          <Button onClick={() => this.answer(word, false)}>Try again</Button>
-          <Button onClick={() => this.answer(word, true)}>Correct!</Button>
-        </div>
-      </div>
+      <Container maxWidth="500px" margin="auto" padding="30px">
+        <Button margin="0 auto" display="block" onClick={switchToProgress}>
+          See Progress
+        </Button>
+
+        <Text css={wordStyle} fontSize={[7, null, 8]}>
+          {word}
+        </Text>
+
+        <Button css={leftSide} onClick={() => this.answer(word, false)}>
+          Try again
+        </Button>
+        <Button css={rightSide} onClick={() => this.answer(word, true)}>
+          Correct!
+        </Button>
+      </Container>
     );
   }
 }
 
 FlashCards.propTypes = {
   words: PropTypes.arrayOf(PropTypes.string).isRequired,
-  handleGuess: PropTypes.func.isRequired
+  handleGuess: PropTypes.func.isRequired,
+  switchToProgress: PropTypes.func.isRequired
 };

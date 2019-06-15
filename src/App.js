@@ -20,6 +20,7 @@ function App() {
               {...props}
               words={wordsPrePrimary}
               handleGuess={() => {}}
+              switchToProgress={() => {}}
             />
           )}
         />
