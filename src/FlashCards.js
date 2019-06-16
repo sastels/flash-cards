@@ -43,7 +43,7 @@ export class FlashCards extends Component {
   };
 
   render() {
-    const { words, switchToProgress } = this.props;
+    const { words, history } = this.props;
     const { count } = this.state;
 
     if (words.length === 0) {
@@ -53,7 +53,13 @@ export class FlashCards extends Component {
 
     return (
       <div css={rootContainer}>
-        <Button onClick={switchToProgress}>See Progress</Button>
+        <Button
+          onClick={() => {
+            history.push('/');
+          }}
+        >
+          Home
+        </Button>
 
         <div css={wordContainer}>
           <Text fontSize={[7, 8, 8]}>{word}</Text>
@@ -70,6 +76,5 @@ export class FlashCards extends Component {
 
 FlashCards.propTypes = {
   words: PropTypes.arrayOf(PropTypes.string).isRequired,
-  handleGuess: PropTypes.func.isRequired,
-  switchToProgress: PropTypes.func.isRequired
+  handleGuess: PropTypes.func.isRequired
 };
