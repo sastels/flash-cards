@@ -5,16 +5,6 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Text } from '@cdssnc/repertoire';
 
-// not used yet
-
-const rootContainer = css`
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const wordContainer = css`
   display: flex;
   flex-direction: column;
@@ -34,6 +24,12 @@ const bottomBarContainer = css`
 export class FlashCards extends Component {
   state = { count: 0 };
 
+  componentDidMount() {
+    window.addEventListener('resize', () => {
+      this.forceUpdate();
+    });
+  }
+
   answer = (text, isCorrect) => {
     const { count } = this.state;
     const { handleGuess } = this.props;
@@ -45,6 +41,16 @@ export class FlashCards extends Component {
   render() {
     const { words, history } = this.props;
     const { count } = this.state;
+
+    // needs the window height when rendered
+    const rootContainer = css`
+      touch-action: manipulation;
+      display: flex;
+      min-height: ${window.innerHeight}px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    `;
 
     if (words.length === 0) {
       return null;
@@ -64,9 +70,9 @@ export class FlashCards extends Component {
         <div css={wordContainer}>
           <Text fontSize={[7, 8, 8]}>{word}</Text>
         </div>
+
         <div css={bottomBarContainer}>
           <Button onClick={() => this.answer(word, false)}>Try again</Button>
-
           <Button onClick={() => this.answer(word, true)}>Correct!</Button>
         </div>
       </div>
