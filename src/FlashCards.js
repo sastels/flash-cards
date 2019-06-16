@@ -3,42 +3,39 @@ import { jsx, css } from '@emotion/core';
 
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Container, Text } from '@cdssnc/repertoire';
+import { Button, Text } from '@cdssnc/repertoire';
 
 // not used yet
 
 const wordStyle = css`
-  margin: 0;
-  position: absolute;
-  top: 47%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  flex: 0.9;
+  padding-top: 30vh;
+  // border: 3px solid red;
 `;
 
-const leftSide = css`
-  position: absolute;
-  left: 0;
-`;
-const rightSide = css`
-  position: absolute;
-  right: 0;
+const rootContainer = css`
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
 `;
 
-export const styles = () => ({
-  word: {},
-  button: {
-    marginLeft: '10%',
-    marginRight: '10%',
-    textTransform: 'none',
-    marginTop: '20px',
-    marginBottom: '30px'
-  },
+// const wordContainer = css`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+// `;
 
-  topBar: {
-    textAlign: 'center'
-  }
-});
+const bottomBar = css`
+  display: flex;
+  // border: 3px solid red;
+  width: 90%;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
+// eslint-disable-next-line import/prefer-default-export
 export class FlashCards extends Component {
   state = { count: 0 };
 
@@ -60,22 +57,19 @@ export class FlashCards extends Component {
     const word = words[count];
 
     return (
-      <Container maxWidth="500px" margin="auto" padding="30px">
-        <Button margin="0 auto" display="block" onClick={switchToProgress}>
-          See Progress
-        </Button>
+      <div css={rootContainer}>
+        <Button onClick={switchToProgress}>See Progress</Button>
 
         <Text css={wordStyle} fontSize={[7, null, 8]}>
           {word}
         </Text>
 
-        <Button css={leftSide} onClick={() => this.answer(word, false)}>
-          Try again
-        </Button>
-        <Button css={rightSide} onClick={() => this.answer(word, true)}>
-          Correct!
-        </Button>
-      </Container>
+        <div css={bottomBar}>
+          <Button onClick={() => this.answer(word, false)}>Try again</Button>
+
+          <Button onClick={() => this.answer(word, true)}>Correct!</Button>
+        </div>
+      </div>
     );
   }
 }
