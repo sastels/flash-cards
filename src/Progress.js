@@ -26,6 +26,16 @@ class Progress extends Component {
     this.setState({ wordSetNames, scores });
   }
 
+  resetScores = () => {
+    const { wordSetNames } = this.state;
+    localStorage.flashCardScores = JSON.stringify({});
+    const scores = {};
+    wordSetNames.forEach(wordSet => {
+      scores[wordSet] = 0;
+    });
+    this.setState({ scores });
+  };
+
   render() {
     const { wordSetNames, scores } = this.state;
     const { history } = this.props;
@@ -60,6 +70,17 @@ class Progress extends Component {
             }}
           >
             Home
+          </Button>
+
+          <Button
+            backgroundColor="blue"
+            width="100%"
+            marginTop={[6, 7, 7]}
+            onClick={() => {
+              this.resetScores();
+            }}
+          >
+            Reset
           </Button>
         </div>
       </Container>
