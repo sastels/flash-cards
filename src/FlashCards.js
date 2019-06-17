@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Text } from '@cdssnc/repertoire';
+import { wordsPerRound } from './constants';
 
 const wordContainer = css`
   display: flex;
@@ -20,27 +20,46 @@ const bottomBarContainer = css`
   margin-bottom: 20px;
 `;
 
+const webStorageEnabled = typeof Storage !== 'undefined';
+
 // eslint-disable-next-line import/prefer-default-export
 export class FlashCards extends Component {
-  state = { count: 0 };
+  state = { count: 0, words: [] };
 
   componentDidMount() {
     window.addEventListener('resize', () => {
       this.forceUpdate();
     });
+    const { words } = this.props;
+    const newWords = words
+      .sort(() => Math.random() - 0.5)
+      .slice(0, wordsPerRound);
+    this.setState({
+      words: newWords,
+      wordScores: localStorage.flashCardScores
+        ? JSON.parse(localStorage.flashCardScores)
+        : {}
+    });
   }
 
   answer = (text, isCorrect) => {
-    const { count } = this.state;
-    const { handleGuess } = this.props;
+    const { count, wordScores } = this.state;
     const newCount = count + 1;
-    this.setState({ count: newCount });
-    handleGuess(text, isCorrect);
+
+    if (webStorageEnabled) {
+      const wordScore = wordScores[text] !== undefined ? wordScores[text] : 0;
+      const newWordScores = JSON.parse(JSON.stringify(wordScores));
+      newWordScores[text] = Number(wordScore) + (isCorrect ? 1 : 0);
+      localStorage.flashCardScores = JSON.stringify(newWordScores);
+      this.setState({ count: newCount, wordScores: newWordScores });
+    } else {
+      this.setState({ count: newCount });
+    }
   };
 
   render() {
-    const { words, history } = this.props;
-    const { count } = this.state;
+    const { history } = this.props;
+    const { count, words } = this.state;
 
     // needs the window height when rendered
     const rootContainer = css`
@@ -56,6 +75,10 @@ export class FlashCards extends Component {
       return null;
     }
     const word = words[count];
+
+    if (count >= words.length) {
+      history.push('/');
+    }
 
     return (
       <div css={rootContainer}>
@@ -73,6 +96,11 @@ export class FlashCards extends Component {
 
         <div css={bottomBarContainer}>
           <Button onClick={() => this.answer(word, false)}>Try again</Button>
+
+          <Text marginTop={[3, 4, 4]} fontSize={[3, 4, 4]}>
+            {count + 1} / {wordsPerRound}
+          </Text>
+
           <Button onClick={() => this.answer(word, true)}>Correct!</Button>
         </div>
       </div>
@@ -81,6 +109,5 @@ export class FlashCards extends Component {
 }
 
 FlashCards.propTypes = {
-  words: PropTypes.arrayOf(PropTypes.string).isRequired,
-  handleGuess: PropTypes.func.isRequired
+  words: PropTypes.arrayOf(PropTypes.string).isRequired
 };

@@ -17,3 +17,12 @@ export const wordsGrade1 = _grade1.split(',').map(s => s.trim());
 export const wordsGrade2 = _grade2.split(',').map(s => s.trim());
 export const wordsGrade3 = _grade3.split(',').map(s => s.trim());
 export const wordsNouns = _nouns.split(',').map(s => s.trim());
+
+export const allWords = {
+  wordsPrePrimary,
+  wordsPrimary,
+  wordsGrade1,
+  wordsGrade2,
+  wordsGrade3,
+  wordsNouns
+};
