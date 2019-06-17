@@ -52,7 +52,7 @@ export class FlashCards extends Component {
     const newCount = count + 1;
     const wordScore = wordScores[text] !== undefined ? wordScores[text] : 0;
     const newWordScores = JSON.parse(JSON.stringify(wordScores));
-    newWordScores[text] = Number(wordScore) + (isCorrect ? 1 : 0);
+    newWordScores[text] = Math.max(Number(wordScore) + (isCorrect ? 1 : 0), 0);
     localStorage.flashCardScores = JSON.stringify(newWordScores);
     this.setState({ count: newCount, wordScores: newWordScores });
   };
