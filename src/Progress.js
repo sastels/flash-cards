@@ -1,7 +1,7 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
+import { css, jsx } from '@emotion/core';
 import { Fragment, Component } from 'react';
-import { Container, Text, H1, CenterContent } from '@cdssnc/repertoire';
+import { Button, Container, Text, H1, CenterContent } from '@cdssnc/repertoire';
 import { allWords } from './data/words';
 import { requiredScore } from './constants';
 
@@ -28,8 +28,9 @@ class Progress extends Component {
 
   render() {
     const { wordSetNames, scores } = this.state;
+    const { history } = this.props;
     return (
-      <Container>
+      <Container width="100%">
         <CenterContent mt={[1, 1, 6]}>
           <H1 textAlign="center">Progress</H1>
         </CenterContent>
@@ -44,6 +45,23 @@ class Progress extends Component {
             </Fragment>
           ))}
         </Container>
+
+        <div
+          css={css`
+            margin: auto;
+            width: 75px;
+          `}
+        >
+          <Button
+            width="100%"
+            marginTop={[6, 7, 7]}
+            onClick={() => {
+              history.push('/');
+            }}
+          >
+            Home
+          </Button>
+        </div>
       </Container>
     );
   }
