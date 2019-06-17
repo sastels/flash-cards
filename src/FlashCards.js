@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Button, Text } from '@cdssnc/repertoire';
-import { wordsPerRound } from './constants';
+import { wordsPerRound, requiredScore } from './constants';
+import { allWords } from './data/words';
 
 const wordContainer = css`
   display: flex;
@@ -20,7 +20,7 @@ const bottomBarContainer = css`
   margin-bottom: 20px;
 `;
 
-const webStorageEnabled = typeof Storage !== 'undefined';
+// const webStorageEnabled = typeof Storage !== 'undefined';
 
 // eslint-disable-next-line import/prefer-default-export
 export class FlashCards extends Component {
@@ -30,31 +30,31 @@ export class FlashCards extends Component {
     window.addEventListener('resize', () => {
       this.forceUpdate();
     });
-    const { words } = this.props;
-    const newWords = words
-      .sort(() => Math.random() - 0.5)
-      .slice(0, wordsPerRound);
+
+    let words = [];
+    Object.keys(allWords).forEach(wordSet => {
+      words = words.concat(allWords[wordSet].sort(() => Math.random() - 0.5));
+    });
+
+    const wordScores = localStorage.flashCardScores
+      ? JSON.parse(localStorage.flashCardScores)
+      : {};
+
+    words = words.filter(word => !(wordScores[word] >= requiredScore));
     this.setState({
-      words: newWords,
-      wordScores: localStorage.flashCardScores
-        ? JSON.parse(localStorage.flashCardScores)
-        : {}
+      words: words.slice(0, wordsPerRound),
+      wordScores
     });
   }
 
   answer = (text, isCorrect) => {
     const { count, wordScores } = this.state;
     const newCount = count + 1;
-
-    if (webStorageEnabled) {
-      const wordScore = wordScores[text] !== undefined ? wordScores[text] : 0;
-      const newWordScores = JSON.parse(JSON.stringify(wordScores));
-      newWordScores[text] = Number(wordScore) + (isCorrect ? 1 : 0);
-      localStorage.flashCardScores = JSON.stringify(newWordScores);
-      this.setState({ count: newCount, wordScores: newWordScores });
-    } else {
-      this.setState({ count: newCount });
-    }
+    const wordScore = wordScores[text] !== undefined ? wordScores[text] : 0;
+    const newWordScores = JSON.parse(JSON.stringify(wordScores));
+    newWordScores[text] = Number(wordScore) + (isCorrect ? 1 : 0);
+    localStorage.flashCardScores = JSON.stringify(newWordScores);
+    this.setState({ count: newCount, wordScores: newWordScores });
   };
 
   render() {
@@ -107,7 +107,3 @@ export class FlashCards extends Component {
     );
   }
 }
-
-FlashCards.propTypes = {
-  words: PropTypes.arrayOf(PropTypes.string).isRequired
-};

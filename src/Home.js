@@ -9,7 +9,6 @@ const center = css`
   width: 1px;
   justify-content: center;
   margin-top: 50px;
-  //   border: 3px solid red;
 `;
 
 const Home = () => (
@@ -17,9 +16,6 @@ const Home = () => (
     <H1 textAlign="center">Flash Cards</H1>
     <Link to="/flash-cards" css={center}>
       <Button>Words</Button>
-    </Link>
-    <Link to="/flash-cards" css={center}>
-      <Button>Numbers</Button>
     </Link>
     <Link to="/progress" css={center}>
       <Button backgroundColor="purple">Progress</Button>
