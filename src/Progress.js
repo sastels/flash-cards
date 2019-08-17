@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { Link } from 'react-router-dom';
 import { Fragment, Component } from 'react';
 import { Button, Container, Text, H1, CenterContent } from '@cdssnc/repertoire';
 import { allWords } from './data/words';
@@ -44,15 +45,23 @@ class Progress extends Component {
     const { history } = this.props;
     return (
       <Container width="100%">
-        <CenterContent mt={[1, 1, 6]}>
+        <CenterContent marginTop={[5, null, 6]}>
           <H1 textAlign="center">Progress</H1>
         </CenterContent>
 
-        <Container maxWidth="500px" marginLeft={[3, 7, 7]} margin="0 auto">
+        <Container maxWidth="500px" marginLeft={[3, null, 7]} margin="0 auto">
           {wordSetNames.map(name => (
             <Fragment key={name}>
-              <Text fontSize={[3, 4, 4]}>
-                {name}: {scores[name]} / {allWords[name].length}{' '}
+              <Link
+                to={`/progress/${name}`}
+                css={css`
+                  font-size: 20pt;
+                `}
+              >
+                {name}
+              </Link>
+              <Text fontSize="20pt">
+                : {scores[name]} / {allWords[name].length}
               </Text>
               <br />
             </Fragment>
