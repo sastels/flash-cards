@@ -24,7 +24,10 @@ const bottomBarContainer = css`
 
 // eslint-disable-next-line import/prefer-default-export
 export class FlashCards extends Component {
-  state = { count: 0, words: [] };
+  constructor(props) {
+    super(props);
+    this.state = { count: 0, words: [] };
+  }
 
   componentDidMount() {
     window.addEventListener('resize', () => {
