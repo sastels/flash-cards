@@ -14,6 +14,7 @@ function App() {
         <Route
           exact
           path="/flash-cards"
+          // eslint-disable-next-line react/jsx-props-no-spreading
           render={props => <FlashCards {...props} />}
         />
         <Route exact path="/progress" component={Progress} />

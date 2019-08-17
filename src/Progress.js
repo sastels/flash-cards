@@ -6,10 +6,13 @@ import { allWords } from './data/words';
 import { requiredScore } from './constants';
 
 class Progress extends Component {
-  state = {
-    wordSetNames: [],
-    scores: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      wordSetNames: [],
+      scores: {}
+    };
+  }
 
   componentDidMount() {
     const wordScores = localStorage.flashCardScores
