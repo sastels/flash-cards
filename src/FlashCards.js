@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -29,11 +29,12 @@ const FlashCards = props => {
   const { history } = props;
   const classes = useStyles();
 
-  const [, updateState] = React.useState();
+  const [, updateState] = useState();
   window.addEventListener('resize', () => {
     updateState({}); // force update
   });
 
+  const [count, setCount] = useState(0);
   const [wordScores, setWordScores] = useState(
     localStorage.flashCardScores ? JSON.parse(localStorage.flashCardScores) : {}
   );
@@ -42,10 +43,12 @@ const FlashCards = props => {
   Object.keys(allWords).forEach(wordSet => {
     words = words.concat(allWords[wordSet].sort(() => Math.random() - 0.5));
   });
-  words = words.filter(word => !(wordScores[word] >= requiredScore));
-
-  const [count, setCount] = useState(0);
-  const testWords = words.slice(0, wordsPerRound);
+  const [testWords] = useState(
+    words
+      .filter(word => !(wordScores[word] >= requiredScore))
+      .slice(0, wordsPerRound)
+      .sort(() => Math.random() - 0.5)
+  );
 
   const answer = (text, isCorrect) => {
     const newCount = count + 1;
@@ -91,7 +94,6 @@ const FlashCards = props => {
         <Box
           display="flex"
           width="90%"
-          boxSizing="border-box"
           justifyContent="space-between"
           marginBottom="30px"
         >
