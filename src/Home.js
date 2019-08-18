@@ -1,25 +1,49 @@
 /** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import { Link } from 'react-router-dom';
-import { H1, CenterContent, Button } from '@cdssnc/repertoire';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Box from '@material-ui/core/Box';
 
-const center = css`
-  margin: auto;
-  display: flex;
-  width: 1px;
-  justify-content: center;
-  margin-top: 50px;
-`;
+const useStyles = makeStyles(() => ({
+  title: {
+    flexGrow: 1
+  },
+  selections: {
+    marginTop: '50px'
+  }
+}));
 
-const Home = () => (
-  <CenterContent marginTop={[5, null, 6]}>
-    <H1 textAlign="center">Flash Cards</H1>
-    <Link to="/flash-cards" css={center}>
-      <Button>Words</Button>
-    </Link>
-    <Link to="/progress" css={center}>
-      <Button backgroundColor="purple">Progress</Button>
-    </Link>
-  </CenterContent>
-);
+const Home = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            Flash Cards
+          </Typography>
+          <Button color="inherit" component={Link} to="/progress">
+            Progress
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      <Box display="flex" marginTop="100px" justifyContent="center">
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/flash-cards"
+        >
+          Words
+        </Button>
+      </Box>
+    </div>
+  );
+};
 export default Home;
