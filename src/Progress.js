@@ -63,7 +63,9 @@ class Progress extends Component {
     return (
       <Container width="100%">
         <CenterContent marginTop={[5, null, 6]}>
-          <H1 textAlign="center">Progress</H1>
+          <H1 fontSize={[6, null, 6]} textAlign="center">
+            Progress
+          </H1>
         </CenterContent>
 
         <table css={tableStyle}>
@@ -105,6 +107,12 @@ class Progress extends Component {
           </tbody>
         </table>
 
+        <Container textAlign="center" marginTop={[4, null, 5]}>
+          <Text fontSize={[2, null, 3]}>
+            A word is &quot;learned&quot; if the child knows it {requiredScore}{' '}
+            times.
+          </Text>
+        </Container>
         <div
           css={css`
             margin: auto;
@@ -122,7 +130,7 @@ class Progress extends Component {
           </Button>
 
           <Button
-            backgroundColor="blue"
+            backgroundColor="darkred"
             width="100%"
             marginTop={[6, 7, 7]}
             onClick={() => {
