@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ThemeProvider } from 'emotion-theming';
 import theme from './theme';
 import Home from './Home';
-import { FlashCards } from './FlashCards';
+import FlashCards from './FlashCards';
 import Progress from './Progress';
 import { ProgressSection } from './ProgressSection';
 
