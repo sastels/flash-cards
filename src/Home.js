@@ -12,7 +12,7 @@ const center = css`
 `;
 
 const Home = () => (
-  <CenterContent mt={[1, 1, 6]}>
+  <CenterContent marginTop={[5, null, 6]}>
     <H1 textAlign="center">Flash Cards</H1>
     <Link to="/flash-cards" css={center}>
       <Button>Words</Button>

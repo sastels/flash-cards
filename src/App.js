@@ -5,6 +5,7 @@ import theme from './theme';
 import Home from './Home';
 import { FlashCards } from './FlashCards';
 import Progress from './Progress';
+import { ProgressSection } from './ProgressSection';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           render={props => <FlashCards {...props} />}
         />
         <Route exact path="/progress" component={Progress} />
+        <Route path="/progress/:section" component={ProgressSection} />
       </Router>
     </ThemeProvider>
   );

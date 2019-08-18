@@ -1,9 +1,27 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { Link } from 'react-router-dom';
 import { Fragment, Component } from 'react';
 import { Button, Container, Text, H1, CenterContent } from '@cdssnc/repertoire';
 import { allWords } from './data/words';
 import { requiredScore } from './constants';
+
+const tableCellStyle = css`
+  padding: 0 15px 0 15px;
+  text-align: center;
+`;
+
+const tableHeaderCellStyle = css`
+  padding: 10px 15px 10px 15px;
+  text-align: center;
+`;
+
+// const tableCellStyle = css``;
+
+const tableStyle = css`
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 class Progress extends Component {
   constructor(props) {
@@ -44,21 +62,57 @@ class Progress extends Component {
     const { history } = this.props;
     return (
       <Container width="100%">
-        <CenterContent mt={[1, 1, 6]}>
-          <H1 textAlign="center">Progress</H1>
+        <CenterContent marginTop={[5, null, 6]}>
+          <H1 fontSize={[6, null, 6]} textAlign="center">
+            Progress
+          </H1>
         </CenterContent>
 
-        <Container maxWidth="500px" marginLeft={[3, 7, 7]} margin="0 auto">
-          {wordSetNames.map(name => (
-            <Fragment key={name}>
-              <Text fontSize={[3, 4, 4]}>
-                {name}: {scores[name]} / {allWords[name].length}{' '}
-              </Text>
-              <br />
-            </Fragment>
-          ))}
-        </Container>
+        <table css={tableStyle}>
+          <tbody>
+            <tr>
+              <th css={tableHeaderCellStyle}>
+                <Text fontSize="20pt" fontWeight="bold">
+                  Section
+                </Text>
+              </th>
+              <th css={tableHeaderCellStyle}>
+                <Text fontSize="20pt" fontWeight="bold">
+                  Words learned
+                </Text>
+              </th>
+            </tr>
 
+            {wordSetNames.map(name => (
+              <Fragment key={name}>
+                <tr>
+                  <td css={tableCellStyle}>
+                    <Link
+                      to={`/progress/${name}`}
+                      css={css`
+                        font-size: 20pt;
+                      `}
+                    >
+                      {name}
+                    </Link>
+                  </td>
+                  <td css={tableCellStyle}>
+                    <Text fontSize="20pt">
+                      {scores[name]} / {allWords[name].length}
+                    </Text>
+                  </td>
+                </tr>
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
+
+        <Container textAlign="center" marginTop={[4, null, 5]}>
+          <Text fontSize={[2, null, 3]}>
+            A word is &quot;learned&quot; if the child knows it {requiredScore}{' '}
+            times.
+          </Text>
+        </Container>
         <div
           css={css`
             margin: auto;
@@ -76,7 +130,7 @@ class Progress extends Component {
           </Button>
 
           <Button
-            backgroundColor="blue"
+            backgroundColor="darkred"
             width="100%"
             marginTop={[6, 7, 7]}
             onClick={() => {
