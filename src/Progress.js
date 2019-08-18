@@ -6,6 +6,23 @@ import { Button, Container, Text, H1, CenterContent } from '@cdssnc/repertoire';
 import { allWords } from './data/words';
 import { requiredScore } from './constants';
 
+const tableCellStyle = css`
+  padding: 0 15px 0 15px;
+  text-align: center;
+`;
+
+const tableHeaderCellStyle = css`
+  padding: 10px 15px 10px 15px;
+  text-align: center;
+`;
+
+// const tableCellStyle = css``;
+
+const tableStyle = css`
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 class Progress extends Component {
   constructor(props) {
     super(props);
@@ -49,24 +66,44 @@ class Progress extends Component {
           <H1 textAlign="center">Progress</H1>
         </CenterContent>
 
-        <Container maxWidth="500px" marginLeft={[3, null, 7]} margin="0 auto">
-          {wordSetNames.map(name => (
-            <Fragment key={name}>
-              <Link
-                to={`/progress/${name}`}
-                css={css`
-                  font-size: 20pt;
-                `}
-              >
-                {name}
-              </Link>
-              <Text fontSize="20pt">
-                : {scores[name]} / {allWords[name].length}
-              </Text>
-              <br />
-            </Fragment>
-          ))}
-        </Container>
+        <table css={tableStyle}>
+          <tbody>
+            <tr>
+              <th css={tableHeaderCellStyle}>
+                <Text fontSize="20pt" fontWeight="bold">
+                  Section
+                </Text>
+              </th>
+              <th css={tableHeaderCellStyle}>
+                <Text fontSize="20pt" fontWeight="bold">
+                  Words learned
+                </Text>
+              </th>
+            </tr>
+
+            {wordSetNames.map(name => (
+              <Fragment key={name}>
+                <tr>
+                  <td css={tableCellStyle}>
+                    <Link
+                      to={`/progress/${name}`}
+                      css={css`
+                        font-size: 20pt;
+                      `}
+                    >
+                      {name}
+                    </Link>
+                  </td>
+                  <td css={tableCellStyle}>
+                    <Text fontSize="20pt">
+                      {scores[name]} / {allWords[name].length}
+                    </Text>
+                  </td>
+                </tr>
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
 
         <div
           css={css`

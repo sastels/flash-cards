@@ -1,9 +1,18 @@
 /** @jsx jsx */
 import { Link } from 'react-router-dom';
 import { jsx, css } from '@emotion/core';
-import { H1, H2, Text, Container } from '@cdssnc/repertoire';
+import { H1, H2, Text, Container, CenterContent } from '@cdssnc/repertoire';
 import { requiredScore } from './constants';
 import { allWords } from './data/words';
+
+const center = css`
+  margin: auto;
+  display: flex;
+  width: 1px;
+  font-size: 20px;
+  justify-content: center;
+  margin-top: 50px;
+`;
 
 // eslint-disable-next-line import/prefer-default-export
 export const ProgressSection = props => {
@@ -28,22 +37,28 @@ export const ProgressSection = props => {
 
   return (
     <Container margin={[3, null, 4]}>
-      <Container marginBottom={[3, null, 5]}>
-        <H1>Progress in {section}</H1>
-        <H2 marginTop={[3, null, 4]}>Words learned</H2>
-        <Text>{wordsLearned.join(', ')}</Text>
-        <H2 marginTop={[3, null, 4]}>Words not learned</H2>
-        <Text>{wordsNotLearned.join(', ')}</Text>
-      </Container>
+      <H1 fontSize={[6, null, 7]} textAlign="center">
+        {section}
+      </H1>
 
-      <Link
-        to="/progress"
-        css={css`
-          font-size: 20pt;
-        `}
-      >
-        Back
-      </Link>
+      <CenterContent maxWidth="350px">
+        <H2 textAlign="center" marginTop={[4, null, 5]}>
+          Words learned
+        </H2>
+
+        <Text fontSize={[3, null, 4]}>{wordsLearned.join(', ')}</Text>
+
+        <H2 textAlign="center" marginTop={[4, null, 5]}>
+          Words not learned
+        </H2>
+        <Text fontSize={[3, null, 4]}>{wordsNotLearned.join(', ')}</Text>
+
+        <Container marginTop={[3, null, 4]}>
+          <Link to="/progress" css={center}>
+            Back
+          </Link>
+        </Container>
+      </CenterContent>
     </Container>
   );
 };
