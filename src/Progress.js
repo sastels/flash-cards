@@ -1,148 +1,115 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Fragment, Component } from 'react';
-import { Button, Container, Text, H1, CenterContent } from '@cdssnc/repertoire';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Box from '@material-ui/core/Box';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import { allWords } from './data/words';
 import { requiredScore } from './constants';
 
-const tableCellStyle = css`
-  padding: 0 15px 0 15px;
-  text-align: center;
-`;
-
-const tableHeaderCellStyle = css`
-  padding: 10px 15px 10px 15px;
-  text-align: center;
-`;
-
-// const tableCellStyle = css``;
-
-const tableStyle = css`
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-class Progress extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      wordSetNames: [],
-      scores: {}
-    };
+const useStyles = makeStyles(() => ({
+  title: {
+    flexGrow: 1
+  },
+  table: {
+    maxWidth: 300
+  },
+  tableCell: {
+    fontSize: '15pt'
   }
+}));
 
-  componentDidMount() {
-    const wordScores = localStorage.flashCardScores
-      ? JSON.parse(localStorage.flashCardScores)
-      : {};
+const computeScores = () => {
+  const wordScores = localStorage.flashCardScores
+    ? JSON.parse(localStorage.flashCardScores)
+    : {};
+  const wordSetNames = Object.keys(allWords);
+  const scores = {};
+  wordSetNames.forEach(name => {
+    scores[name] = allWords[name].filter(
+      word => wordScores[word] >= requiredScore
+    ).length;
+  });
+  return scores;
+};
 
-    const wordSetNames = Object.keys(allWords);
-    const scores = {};
-    wordSetNames.forEach(name => {
-      scores[name] = allWords[name].filter(
-        word => wordScores[word] >= requiredScore
-      ).length;
-    });
-    this.setState({ wordSetNames, scores });
-  }
+const resetScores = setScores => {
+  localStorage.flashCardScores = JSON.stringify({});
+  setScores({});
+};
 
-  resetScores = () => {
-    const { wordSetNames } = this.state;
-    localStorage.flashCardScores = JSON.stringify({});
-    const scores = {};
-    wordSetNames.forEach(wordSet => {
-      scores[wordSet] = 0;
-    });
-    this.setState({ scores });
-  };
+const Progress = () => {
+  const classes = useStyles();
+  const [scores, setScores] = useState(computeScores());
+  const wordSetNames = Object.keys(allWords);
 
-  render() {
-    const { wordSetNames, scores } = this.state;
-    const { history } = this.props;
-    return (
-      <Container width="100%">
-        <CenterContent marginTop={[5, null, 6]}>
-          <H1 fontSize={[6, null, 6]} textAlign="center">
+  return (
+    <Box>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
             Progress
-          </H1>
-        </CenterContent>
+          </Typography>
+          <Button color="inherit" component={Link} to="/">
+            Back
+          </Button>
+        </Toolbar>
+      </AppBar>
 
-        <table css={tableStyle}>
-          <tbody>
-            <tr>
-              <th css={tableHeaderCellStyle}>
-                <Text fontSize="20pt" fontWeight="bold">
-                  Section
-                </Text>
-              </th>
-              <th css={tableHeaderCellStyle}>
-                <Text fontSize="20pt" fontWeight="bold">
-                  Words learned
-                </Text>
-              </th>
-            </tr>
-
+      <Box display="flex" marginTop="20px" justifyContent="center">
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.tableCell}>Section</TableCell>
+              <TableCell className={classes.tableCell} align="right">
+                Learned
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {wordSetNames.map(name => (
-              <Fragment key={name}>
-                <tr>
-                  <td css={tableCellStyle}>
-                    <Link
-                      to={`/progress/${name}`}
-                      css={css`
-                        font-size: 20pt;
-                      `}
-                    >
-                      {name}
-                    </Link>
-                  </td>
-                  <td css={tableCellStyle}>
-                    <Text fontSize="20pt">
-                      {scores[name]} / {allWords[name].length}
-                    </Text>
-                  </td>
-                </tr>
-              </Fragment>
+              <TableRow key={name}>
+                <TableCell className={classes.tableCell}>
+                  <Link to={`/progress/${name}`}>{name}</Link>
+                </TableCell>
+                <TableCell className={classes.tableCell} align="right">
+                  {scores[name] ? scores[name] : 0} / {allWords[name].length}
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
+      </Box>
 
-        <Container textAlign="center" marginTop={[4, null, 5]}>
-          <Text fontSize={[2, null, 3]}>
-            A word is &quot;learned&quot; if the child knows it {requiredScore}{' '}
-            times.
-          </Text>
-        </Container>
-        <div
-          css={css`
-            margin: auto;
-            width: 75px;
-          `}
+      <Box display="flex" marginTop="20px" justifyContent="center">
+        <Typography variant="h6">
+          A word is &quot;learned&quot; if the child knows it {requiredScore}{' '}
+          times.
+        </Typography>
+      </Box>
+
+      <Box display="flex" marginTop="100px" justifyContent="center">
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            resetScores(setScores);
+          }}
         >
-          <Button
-            width="100%"
-            marginTop={[6, 7, 7]}
-            onClick={() => {
-              history.push('/');
-            }}
-          >
-            Home
-          </Button>
-
-          <Button
-            backgroundColor="darkred"
-            width="100%"
-            marginTop={[6, 7, 7]}
-            onClick={() => {
-              this.resetScores();
-            }}
-          >
-            Reset
-          </Button>
-        </div>
-      </Container>
-    );
-  }
-}
+          Reset
+        </Button>
+      </Box>
+    </Box>
+  );
+};
 
 export default Progress;
