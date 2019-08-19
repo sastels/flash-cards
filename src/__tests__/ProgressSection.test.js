@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { ProgressSection } from '../ProgressSection';
+import ProgressSection from '../ProgressSection';
 
 afterEach(cleanup);
 
