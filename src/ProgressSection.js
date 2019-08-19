@@ -1,28 +1,36 @@
 /** @jsx jsx */
 import { Link } from 'react-router-dom';
-import { jsx, css } from '@emotion/core';
-import { H1, H2, Text, Container, CenterContent } from '@cdssnc/repertoire';
+import { jsx } from '@emotion/core';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Box from '@material-ui/core/Box';
+
 import { requiredScore } from './constants';
 import { allWords } from './data/words';
 
-const center = css`
-  margin: auto;
-  display: flex;
-  width: 1px;
-  font-size: 20px;
-  justify-content: center;
-  margin-top: 50px;
-`;
+const useStyles = makeStyles(() => ({
+  title: {
+    flexGrow: 1
+  }
+}));
 
-// eslint-disable-next-line import/prefer-default-export
-export const ProgressSection = props => {
+const ProgressSection = props => {
   const {
     match: { params }
   } = props;
   const { section } = params;
 
+  const classes = useStyles();
+
   if (Object.keys(allWords).indexOf(section) === -1) {
-    return <H1>Bad url</H1>;
+    return (
+      <Typography variant="h6" className={classes.title}>
+        Bad url
+      </Typography>
+    );
   }
   const wordScores = localStorage.flashCardScores
     ? JSON.parse(localStorage.flashCardScores)
@@ -36,29 +44,35 @@ export const ProgressSection = props => {
   );
 
   return (
-    <Container margin={[3, null, 4]}>
-      <H1 fontSize={[6, null, 7]} textAlign="center">
-        {section}
-      </H1>
-
-      <CenterContent maxWidth="350px">
-        <H2 textAlign="center" marginTop={[4, null, 5]}>
-          Words learned
-        </H2>
-
-        <Text fontSize={[3, null, 4]}>{wordsLearned.join(', ')}</Text>
-
-        <H2 textAlign="center" marginTop={[4, null, 5]}>
-          Words not learned
-        </H2>
-        <Text fontSize={[3, null, 4]}>{wordsNotLearned.join(', ')}</Text>
-
-        <Container marginTop={[3, null, 4]}>
-          <Link to="/progress" css={center}>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            {section}
+          </Typography>
+          <Button color="inherit" component={Link} to="/progress">
             Back
-          </Link>
-        </Container>
-      </CenterContent>
-    </Container>
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      <Box display="flex" marginTop="50px" justifyContent="center">
+        <Box maxWidth="350px">
+          <Typography variant="h4" gutterBottom>
+            Words learned
+          </Typography>
+          <Typography variant="body">{wordsLearned.join(', ')}</Typography>
+
+          <Box marginTop="20px">
+            <Typography variant="h4" gutterBottom>
+              Words not learned
+            </Typography>
+            <Typography variant="body">{wordsNotLearned.join(', ')}</Typography>
+          </Box>
+        </Box>
+      </Box>
+    </div>
   );
 };
+
+export default ProgressSection;
