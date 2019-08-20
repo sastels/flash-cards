@@ -79,7 +79,7 @@ const Progress = () => {
             {wordSetNames.map(name => (
               <TableRow key={name}>
                 <TableCell className={classes.tableCell}>
-                  <Link to={`/progress/${name}`}>{name}</Link>
+                  <Link to={`/progress-details/${name}`}>{name}</Link>
                 </TableCell>
                 <TableCell className={classes.tableCell} align="right">
                   {scores[name] ? scores[name] : 0} / {allWords[name].length}

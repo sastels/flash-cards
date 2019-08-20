@@ -8,7 +8,7 @@ describe('<FlashCards />', () => {
   it('renders without crashing', () => {
     render(
       <BrowserRouter>
-        <FlashCards match={{ params: { section: 'Math' } }} />
+        <FlashCards match={{ params: { area: 'Math' } }} />
       </BrowserRouter>
     );
   });

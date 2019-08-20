@@ -7,8 +7,7 @@ import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
-
-import { sections } from './data/words';
+import { areas } from './data/words';
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -41,9 +40,9 @@ const Home = () => {
         marginTop="100px"
         justifyContent="center"
       >
-        {Object.keys(sections).map(section => (
+        {Object.keys(areas).map(area => (
           <Box
-            key={section}
+            key={area}
             display="flex"
             marginTop="30px"
             justifyContent="center"
@@ -52,9 +51,9 @@ const Home = () => {
               variant="contained"
               color="primary"
               component={Link}
-              to={`/flash-cards/${section}`}
+              to={`/flash-cards/${area}`}
             >
-              {section}
+              {area}
             </Button>
           </Box>
         ))}
