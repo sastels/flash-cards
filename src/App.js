@@ -13,7 +13,7 @@ function App() {
       <Router>
         <Route exact path="/" component={Home} />
         <Route exact path="/flash-cards/:area" component={FlashCards} />
-        <Route exact path="/progress" component={Progress} />
+        <Route exact path="/progress/:area" component={Progress} />
         <Route path="/progress-details/:section" component={ProgressDetails} />
       </Router>
     </ThemeProvider>

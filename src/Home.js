@@ -46,7 +46,7 @@ const Home = () => {
                   <Link to={`/flash-cards/${area}`}>{area}</Link>
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  <Link to="/progress">Progress</Link>
+                  <Link to={`/progress/${area}`}>Progress</Link>
                 </TableCell>
               </TableRow>
             ))}

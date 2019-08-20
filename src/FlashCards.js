@@ -79,7 +79,7 @@ const FlashCards = props => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Words
+            {area}
           </Typography>
           <Button color="inherit" component={Link} to="/">
             Back

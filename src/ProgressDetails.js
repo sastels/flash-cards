@@ -9,7 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
 
 import { requiredScore } from './constants';
-import { allWords } from './data/words';
+import { allWords, areas } from './data/words';
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -43,6 +43,10 @@ const ProgressSection = props => {
     word => wordScores[word] < requiredScore || !wordScores[word]
   );
 
+  const area = Object.keys(areas).filter(name =>
+    areas[name].includes(section)
+  )[0];
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -50,7 +54,7 @@ const ProgressSection = props => {
           <Typography variant="h6" className={classes.title}>
             {section}
           </Typography>
-          <Button color="inherit" component={Link} to="/progress">
+          <Button color="inherit" component={Link} to={`/progress/${area}`}>
             Back
           </Button>
         </Toolbar>
@@ -61,13 +65,15 @@ const ProgressSection = props => {
           <Typography variant="h4" gutterBottom>
             Words learned
           </Typography>
-          <Typography variant="body">{wordsLearned.join(', ')}</Typography>
+          <Typography variant="body1">{wordsLearned.join(', ')}</Typography>
 
           <Box marginTop="20px">
             <Typography variant="h4" gutterBottom>
               Words not learned
             </Typography>
-            <Typography variant="body">{wordsNotLearned.join(', ')}</Typography>
+            <Typography variant="body1">
+              {wordsNotLearned.join(', ')}
+            </Typography>
           </Box>
         </Box>
       </Box>

@@ -13,7 +13,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { allWords } from './data/words';
+import { allWords, areas } from './data/words';
 import { requiredScore } from './constants';
 
 const useStyles = makeStyles(() => ({
@@ -28,11 +28,11 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const computeScores = () => {
+const computeScores = area => {
   const wordScores = localStorage.flashCardScores
     ? JSON.parse(localStorage.flashCardScores)
     : {};
-  const wordSetNames = Object.keys(allWords);
+  const wordSetNames = areas[area];
   const scores = {};
   wordSetNames.forEach(name => {
     scores[name] = allWords[name].filter(
@@ -47,10 +47,15 @@ const resetScores = setScores => {
   setScores({});
 };
 
-const Progress = () => {
+const Progress = props => {
+  const {
+    match: { params }
+  } = props;
+  const { area } = params;
+
   const classes = useStyles();
-  const [scores, setScores] = useState(computeScores());
-  const wordSetNames = Object.keys(allWords);
+  const [scores, setScores] = useState(computeScores(area));
+  const wordSetNames = areas[area];
 
   return (
     <Box>
@@ -90,10 +95,10 @@ const Progress = () => {
         </Table>
       </Box>
 
-      <Box display="flex" marginTop="20px" justifyContent="center">
+      <Box display="flex" margin="40px" justifyContent="center">
         <Typography variant="h6">
-          A word is &quot;learned&quot; if the child knows it {requiredScore}{' '}
-          times.
+          Something is &quot;learned&quot; if the child knows it {requiredScore}{' '}
+          times in a row.
         </Typography>
       </Box>
 
