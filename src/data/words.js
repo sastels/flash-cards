@@ -18,11 +18,41 @@ export const wordsGrade2 = _grade2.split(',').map(s => s.trim());
 export const wordsGrade3 = _grade3.split(',').map(s => s.trim());
 export const wordsNouns = _nouns.split(',').map(s => s.trim());
 
+const digits0to4 = ['0', '1', '2', '3', '4'];
+const digits5to9 = ['5', '6', '7', '8', '9'];
+
+const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))));
+const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a);
+const allSums = (digitsA, digitsB) => [
+  ...new Set(cartesian(digitsA, digitsB).map(pair => `${pair[0]} + ${pair[1]}`))
+];
+
 export const allWords = {
   'Pre-primary': wordsPrePrimary,
   Primary: wordsPrimary,
   'Grade 1': wordsGrade1,
   'Grade 2': wordsGrade2,
   'Grade 3': wordsGrade3,
-  Nouns: wordsNouns
+  Nouns: wordsNouns,
+  'Math addition 1': allSums(digits0to4, digits0to4),
+  'Math addition 2': allSums(digits5to9, digits0to4),
+  'Math addition 3': allSums(digits0to4, digits5to9),
+  'Math addition 4': allSums(digits5to9, digits5to9)
+};
+
+export const sections = {
+  'English words': [
+    'Pre-primary',
+    'Primary',
+    'Grade 1',
+    'Grade 2',
+    'Grade 3',
+    'Nouns'
+  ],
+  Math: [
+    'Math addition 1',
+    'Math addition 2',
+    'Math addition 3',
+    'Math addition 4'
+  ]
 };

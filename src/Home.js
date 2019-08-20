@@ -8,6 +8,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
 
+import { sections } from './data/words';
+
 const useStyles = makeStyles(() => ({
   title: {
     flexGrow: 1
@@ -33,15 +35,29 @@ const Home = () => {
         </Toolbar>
       </AppBar>
 
-      <Box display="flex" marginTop="100px" justifyContent="center">
-        <Button
-          variant="contained"
-          color="primary"
-          component={Link}
-          to="/flash-cards"
-        >
-          Words
-        </Button>
+      <Box
+        display="flex"
+        flexDirection="column"
+        marginTop="100px"
+        justifyContent="center"
+      >
+        {Object.keys(sections).map(section => (
+          <Box
+            key={section}
+            display="flex"
+            marginTop="30px"
+            justifyContent="center"
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/flash-cards"
+            >
+              {section}
+            </Button>
+          </Box>
+        ))}
       </Box>
     </div>
   );

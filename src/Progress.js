@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1
   },
   table: {
-    maxWidth: 300
+    maxWidth: 350
   },
   tableCell: {
     fontSize: '15pt'
