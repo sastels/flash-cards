@@ -52,7 +52,7 @@ const Home = () => {
               variant="contained"
               color="primary"
               component={Link}
-              to="/flash-cards"
+              to={`/flash-cards/${section}`}
             >
               {section}
             </Button>

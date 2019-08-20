@@ -12,12 +12,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Route exact path="/" component={Home} />
-        <Route
-          exact
-          path="/flash-cards"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          render={props => <FlashCards {...props} />}
-        />
+        <Route exact path="/flash-cards/:section" component={FlashCards} />
         <Route exact path="/progress" component={Progress} />
         <Route path="/progress/:section" component={ProgressSection} />
       </Router>
