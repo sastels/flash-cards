@@ -9,7 +9,7 @@ describe('<Progress />', () => {
   it('renders without crashing', () => {
     render(
       <BrowserRouter>
-        <Progress />
+        <Progress match={{ params: { area: 'Math' } }} />
       </BrowserRouter>
     );
   });

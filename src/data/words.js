@@ -40,7 +40,7 @@ export const allWords = {
   'Math addition 4': allSums(digits5to9, digits5to9)
 };
 
-export const sections = {
+export const areas = {
   'English words': [
     'Pre-primary',
     'Primary',

@@ -9,7 +9,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
 import { wordsPerRound, requiredScore } from './constants';
-import { allWords, sections } from './data/words';
+import { allWords, areas } from './data/words';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,7 +30,7 @@ const FlashCards = props => {
     match: { params },
     history
   } = props;
-  const { section } = params;
+  const { area } = params;
 
   const classes = useStyles();
 
@@ -45,7 +45,7 @@ const FlashCards = props => {
   );
 
   let words = [];
-  sections[section].forEach(wordSet => {
+  areas[area].forEach(wordSet => {
     words = words.concat(allWords[wordSet].sort(() => Math.random() - 0.5));
   });
   const [testWords] = useState(
@@ -79,7 +79,7 @@ const FlashCards = props => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Words
+            {area}
           </Typography>
           <Button color="inherit" component={Link} to="/">
             Back
