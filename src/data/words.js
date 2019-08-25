@@ -20,6 +20,7 @@ export const wordsNouns = _nouns.split(',').map(s => s.trim());
 
 const digits0to4 = ['0', '1', '2', '3', '4'];
 const digits5to9 = ['5', '6', '7', '8', '9'];
+const digits0to9 = digits0to4.concat(digits5to9);
 
 const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))));
 const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a);
@@ -34,10 +35,13 @@ export const allWords = {
   'Grade 2': wordsGrade2,
   'Grade 3': wordsGrade3,
   Nouns: wordsNouns,
+  'Math plus 1': allSums(digits0to9, ['1']),
+  'Math plus 2': allSums(digits0to9, ['2']),
+  'Math plus 3': allSums(digits0to9, ['3']),
   'Math addition 1': allSums(digits0to4, digits0to4),
   'Math addition 2': allSums(digits5to9, digits0to4),
   'Math addition 3': allSums(digits0to4, digits5to9),
-  'Math addition 4': allSums(digits5to9, digits5to9)
+  'Math addition 4': allSums(digits0to9, digits0to9)
 };
 
 export const areas = {
@@ -50,6 +54,9 @@ export const areas = {
     'Nouns'
   ],
   Math: [
+    'Math plus 1',
+    'Math plus 2',
+    'Math plus 3',
     'Math addition 1',
     'Math addition 2',
     'Math addition 3',

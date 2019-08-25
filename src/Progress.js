@@ -42,9 +42,15 @@ const computeScores = area => {
   return scores;
 };
 
-const resetScores = setScores => {
-  localStorage.flashCardScores = JSON.stringify({});
-  setScores({});
+const resetScores = (area, scores, setScores) => {
+  const newScores = JSON.parse(JSON.stringify(scores));
+  areas[area].forEach(wordSet => {
+    allWords[wordSet].forEach(word => {
+      newScores[word] = 0;
+    });
+  });
+  localStorage.flashCardScores = JSON.stringify(newScores);
+  setScores(newScores);
 };
 
 const Progress = props => {
@@ -107,7 +113,7 @@ const Progress = props => {
           variant="contained"
           color="secondary"
           onClick={() => {
-            resetScores(setScores);
+            resetScores(area, scores, setScores);
           }}
         >
           Reset
