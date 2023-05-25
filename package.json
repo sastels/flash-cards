@@ -12,8 +12,9 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1",
-    "styled-system": "^5.1.0"
+    "react-scripts": "5.0.0",
+    "styled-system": "^5.1.0",
+    "@snyk/protect": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -22,7 +23,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/*.js",
-    "heroku-postbuild": "react-scripts build"
+    "heroku-postbuild": "react-scripts build",
+    "prepare": "yarn run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -63,5 +66,6 @@
     "hooks": {
       "pre-commit": "NODE_ENV=production lint-staged"
     }
-  }
+  },
+  "snyk": true
 }
